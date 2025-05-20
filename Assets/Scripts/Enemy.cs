@@ -11,6 +11,9 @@ public class Enemy : MonoBehaviour
     // 이동 방향
     Vector3 dir;
 
+    // 폭발 효과 Prefab
+    public GameObject exploPrefab;
+
     void Start()
     {
         // 0 ~ 9 사의 값을 랜덤한게 뽑자.
@@ -70,6 +73,17 @@ public class Enemy : MonoBehaviour
         {
             // 부딪힌 게임오브젝트 파괴
             Destroy(other.gameObject);
+
+            // 폭발효과 Prefab 을 하나 복제하자.
+            GameObject explo = Instantiate(exploPrefab);
+            // 폭발 위치를 나의 위치한다.
+            explo.transform.position = transform.position;
+            // 만들어지 효과에서 ParticleSystem 컴포넌트 가져오자.
+            ParticleSystem ps = explo.GetComponent<ParticleSystem>();
+            // 가져온 컴포넌트의 Play 함수 실행
+            ps.Play();
+            // 만들어진 효과를 3초뒤에 파괴하자.
+            Destroy(explo, 3);
         }
         // 나도 파괴
         Destroy(gameObject);        
