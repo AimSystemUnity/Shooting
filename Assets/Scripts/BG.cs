@@ -1,23 +1,23 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class BG : MonoBehaviour
 {
-    // ½ºÅ©·Ñ ¼Ó·Â
+    // ìŠ¤í¬ë¡¤ ì†ë ¥
     public float speed = 1f;
     void Start()
     {
         
     }
-
+     
     void Update()
     {
-        // ¾Æ·¡·Î ¿òÁ÷ÀÌÀÚ.
+        // ì•„ë˜ë¡œ ì›€ì§ì´ì.
         transform.position += Vector3.down * speed * Time.deltaTime;
 
-        // ¸¸¾à¿¡ À§Ä¡y °ªÀÌ -30 º¸´Ù ÀÛÀ¸¸é
+        // ë§Œì•½ì— ìœ„ì¹˜y ê°’ì´ -30 ë³´ë‹¤ ì‘ìœ¼ë©´
         if(transform.position.y < -30)
         {
-            // À§Ä¡¸¦ À§·Î 90 ¸¸Å­ ÀÌµ¿½ÃÅ°ÀÚ.
+            // ìœ„ì¹˜ë¥¼ ìœ„ë¡œ 90 ë§Œí¼ ì´ë™ì‹œí‚¤ì.
             transform.position += Vector3.up * 90;
         }
     }

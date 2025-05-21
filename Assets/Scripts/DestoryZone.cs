@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class DestoryZone : MonoBehaviour
 {
@@ -14,7 +14,11 @@ public class DestoryZone : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // ³ª¿Í ºÎµúÈù ¿ÀºêÁ§Æ®¸¦ ÆÄ±«ÇÏÀÚ.
-        Destroy(other.gameObject);
+        // ë§Œì•½ì— ë¶€ë”ªíŒ ì˜¤ë¸Œì íŠ¸ê°€ ì´ì•Œ ì•„ë‹ˆë©´
+        if(other.gameObject.layer != LayerMask.NameToLayer("Bullet"))        
+        {
+            // ë‚˜ì™€ ë¶€ë”ªíŒ ì˜¤ë¸Œì íŠ¸ë¥¼ íŒŒê´´í•˜ì.
+            Destroy(other.gameObject);
+        } 
     }
 }

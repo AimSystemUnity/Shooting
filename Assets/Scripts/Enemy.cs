@@ -1,47 +1,67 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    // ÀÌµ¿ ¼Ó·Â
+    // ì´ë™ ì†ë ¥
     public float speed = 7;
 
-    // Å¸°Ù
+    // íƒ€ê²Ÿ
     public GameObject target;
 
-    // ÀÌµ¿ ¹æÇâ
+    // ì´ë™ ë°©í–¥
     Vector3 dir;
 
-    // Æø¹ß È¿°ú Prefab
+    // í­ë°œ íš¨ê³¼ Prefab
     public GameObject exploPrefab;
+
+    // ì™¸í˜•ë“¤ì„ ê°€ì§€ê³  ìˆëŠ” ë°°ì—´
+    public GameObject[] models;
+
+    // ì´ì•Œ Prefab
+    public GameObject enemyBulletPrefab;
+    // ì´ì•Œ ìƒì„± ì‹œê°„
+    float createTime;
+    // í˜„ì¬ ì‹œê°„
+    float currTime;
 
     void Start()
     {
-        // 0 ~ 9 »çÀÇ °ªÀ» ·£´ıÇÑ°Ô »ÌÀÚ.
+        // ì´ì•Œ ìƒì„± ì‹œê°„ì„ ì„¤ì • (0.5 ~ 1.5)
+        createTime = Random.Range(0.5f, 1.5f);
+
+        // ëª‡ ë²ˆì§¸ ì™¸í˜•ì„ ì„ íƒí• ì§€
+        int randModel = Random.Range(0, models.Length);
+        models[randModel].SetActive(true);
+
+        // 0 ~ 9 ì‚¬ì˜ ê°’ì„ ëœë¤í•œê²Œ ë½‘ì.
         int rand = Random.Range(0, 10);
-        // ¸¸¾à¿¡ ·£´ı°ªÀÌ 3º¸´Ù ÀÛÀ¸¸é (30%)
+        // ë§Œì•½ì— ëœë¤ê°’ì´ 3ë³´ë‹¤ ì‘ìœ¼ë©´ (30%)
         if(rand < 4)
         {
-            // ¹æÇâÀ» ¾Æ·¡·Î!
+            // ë°©í–¥ì„ ì•„ë˜ë¡œ!
             dir = Vector3.down;
         }
-        // ±×·¸Áö ¾ÊÀ¸¸é
+        // ê·¸ë ‡ì§€ ì•Šìœ¼ë©´
         else
         {
-            // ÇÃ·¹ÀÌ¾î (Å¸°Ù) ¸¦ Ã£ÀÚ.
+            // í”Œë ˆì´ì–´ (íƒ€ê²Ÿ) ë¥¼ ì°¾ì.
             target = GameObject.Find("Player");
-            
-            // ¸¸¾à¿¡ ÇÃ·¹ÀÌ¾î°¡ ¾ø´Ù¸é
-            if(target == null)
+
+            // ë§Œì•½ì— í”Œë ˆì´ì–´ê°€ ì—†ë‹¤ë©´
+            if (target == null)
             {
-                // ¹æÇâÀ» ¾Æ·¡·Î!
+                // ë°©í–¥ì„ ì•„ë˜ë¡œ!
                 dir = Vector3.down;
             }
             else
             {
-                // Å¸°ÙÀ» ÇâÇÏ´Â ¹æÇâÀ» ±¸ÇÏÀÚ. (Enemy ---> Player)
+                // íƒ€ê²Ÿì„ í–¥í•˜ëŠ” ë°©í–¥ì„ êµ¬í•˜ì. (Enemy ---> Player)
                 dir = target.transform.position - transform.position;
-                // dirÅ©±â¸¦ 1·ÎÇÑ´Ù.
-                dir.Normalize();    
+                // dirí¬ê¸°ë¥¼ 1ë¡œí•œë‹¤.
+                dir.Normalize();
+                // ë‚˜ì˜ up ë°©í–¥ì„ ì´ë™ë°©í–¥ì˜ ë°˜ëŒ€ë¡œ í•œë‹¤.
+                //transform.up = -dir;
+                transform.rotation = Quaternion.LookRotation(Vector3.forward, -dir);
             }
         }
     }
@@ -49,12 +69,29 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        // ±¸ÇÑ ¹æÇâÀ¸·Î ÀÌµ¿ÇÏ°í ½Í´Ù.
+        // êµ¬í•œ ë°©í–¥ìœ¼ë¡œ ì´ë™í•˜ê³  ì‹¶ë‹¤.
         transform.position += dir * speed * Time.deltaTime;
+
+        // ì‹œê°„ì„ íë¥´ê²Œ í•˜ì.
+        currTime += Time.deltaTime;
+        // ë§Œì•½ì— í˜„ì¬ì‹œê°„ì´ ìƒì„±ì‹œê°„ë³´ë‹¤ ì»¤ì§€ë©´
+        if(currTime > createTime)
+        {
+            // ì´ì•Œ ìƒì„±í•˜ì.
+            GameObject bullet = Instantiate(enemyBulletPrefab);
+            // ìƒì„±ëœ ì´ì•Œì„ ë‚˜ì˜ ìœ„ì¹˜ì— ë†“ì.
+            bullet.transform.position = transform.position;
+            // í˜„ì¬ ì‹œê°„ ì´ˆê¸°í™”
+            currTime = 0;
+        }
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        
+    }
 
-    // other : ºÎµúÈù °´Ã¼ÀÇ Á¤º¸
+    // other : ë¶€ë”ªíŒ ê°ì²´ì˜ ì •ë³´
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("DestroyZone"))
@@ -68,24 +105,35 @@ public class Enemy : MonoBehaviour
 
         }
 
-        // ¸¸¾à¿¡ ºÎµúÈù ¹°Ã¼°¡ DestroyZone ÀÌ ¾Æ´Ï¸é
+        // ë§Œì•½ì— ë¶€ë”ªíŒ ë¬¼ì²´ê°€ DestroyZone ì´ ì•„ë‹ˆë©´
         if(other.name.Contains("DestroyZone") == false)
         {
-            // ºÎµúÈù °ÔÀÓ¿ÀºêÁ§Æ® ÆÄ±«
-            Destroy(other.gameObject);
+            // ë§Œì•½ì— ë¶€ë”ªíŒ ë¬¼ì²´ê°€ ì´ì•Œì´ ì•„ë‹ˆë©´
+            if(other.name.Contains("Bullet")== false)
+            {
+                // ë¶€ë”ªíŒ ê²Œì„ì˜¤ë¸Œì íŠ¸ íŒŒê´´
+                Destroy(other.gameObject);
+            }
 
-            // Æø¹ßÈ¿°ú Prefab À» ÇÏ³ª º¹Á¦ÇÏÀÚ.
+            // í­ë°œíš¨ê³¼ Prefab ì„ í•˜ë‚˜ ë³µì œí•˜ì.
             GameObject explo = Instantiate(exploPrefab);
-            // Æø¹ß À§Ä¡¸¦ ³ªÀÇ À§Ä¡ÇÑ´Ù.
+            // í­ë°œ ìœ„ì¹˜ë¥¼ ë‚˜ì˜ ìœ„ì¹˜í•œë‹¤.
             explo.transform.position = transform.position;
-            // ¸¸µé¾îÁö È¿°ú¿¡¼­ ParticleSystem ÄÄÆ÷³ÍÆ® °¡Á®¿ÀÀÚ.
+            // ë§Œë“¤ì–´ì§€ íš¨ê³¼ì—ì„œ ParticleSystem ì»´í¬ë„ŒíŠ¸ ê°€ì ¸ì˜¤ì.
             ParticleSystem ps = explo.GetComponent<ParticleSystem>();
-            // °¡Á®¿Â ÄÄÆ÷³ÍÆ®ÀÇ Play ÇÔ¼ö ½ÇÇà
+            // ê°€ì ¸ì˜¨ ì»´í¬ë„ŒíŠ¸ì˜ Play í•¨ìˆ˜ ì‹¤í–‰
             ps.Play();
-            // ¸¸µé¾îÁø È¿°ú¸¦ 3ÃÊµÚ¿¡ ÆÄ±«ÇÏÀÚ.
+            // ë§Œë“¤ì–´ì§„ íš¨ê³¼ë¥¼ 3ì´ˆë’¤ì— íŒŒê´´í•˜ì.
             Destroy(explo, 3);
+
+            // ScoreManager ê²Œì„ì˜¤ë¸Œì íŠ¸ ì°¾ì.
+            GameObject go = GameObject.Find("ScoreManager");
+            // ì°¾ì•„ì˜¨ ê²Œì„ì˜¤ë¸Œì íŠ¸ì—ì„œ ScoreManager ì»´í¬ë„ŒíŠ¸ ê°€ì ¸ì˜¤ì.
+            ScoreManager sm = go.GetComponent<ScoreManager>();
+            // ê°€ì ¸ì˜¨ ì»´í¬ë„ŒíŠ¸ì˜ AddScore í•¨ìˆ˜ ì‹¤í–‰
+            sm.AddScore(10);
         }
-        // ³ªµµ ÆÄ±«
+        // ë‚˜ë„ íŒŒê´´
         Destroy(gameObject);        
     }
 }

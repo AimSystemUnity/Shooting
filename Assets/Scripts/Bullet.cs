@@ -1,21 +1,37 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    //ÃÑ¾Ë ¼Ó·Â
+    //ì´ì•Œ ì†ë ¥
     public float speed = 10;
-    void Start()
-    {
-        // ÃÑ ¼Ò¸®¸¦ ³»ÀÚ!
-        // AudioSource ÄÄÆ÷³ÍÆ® °¡Á®¿ÀÀÚ.
-        AudioSource audio = GetComponent<AudioSource>();
-        // °¡Á®¿Â ÄÄÆ÷³ÍÆ®¿¡¼­ Play ÇÔ¼ö ½ÇÇà
-        audio.Play();
-    }
 
     void Update()
     {
-        // À§·Î ¿Ã¶ó°¡°í ½Í´Ù
-        transform.position += Vector3.up * speed * Time.deltaTime;
+        // ìœ„ë¡œ ì˜¬ë¼ê°€ê³  ì‹¶ë‹¤
+        transform.position += transform.up * speed * Time.deltaTime;
+    }
+     
+    public void PlaySound()
+    {
+        // ì´ ì†Œë¦¬ë¥¼ ë‚´ì!
+        // AudioSource ì»´í¬ë„ŒíŠ¸ ê°€ì ¸ì˜¤ì.
+        AudioSource audio = GetComponent<AudioSource>();
+        // ê°€ì ¸ì˜¨ ì»´í¬ë„ŒíŠ¸ì—ì„œ Play í•¨ìˆ˜ ì‹¤í–‰
+        audio.Play();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        // ì´ì•Œì„ ë¹„í™œì„±í™” 
+        gameObject.SetActive(false);
+        // Player ë¥¼ ì°¾ì.
+        GameObject player = GameObject.Find("Player");
+        if (player != null)
+        {
+            // ì°¾ì€ Player ì—ì„œ PlayerFire ì»´í¬ë„ŒíŠ¸ë¥¼ ê°€ì ¸ì˜¤ì.
+            PlayerFire pf = player.GetComponent<PlayerFire>();
+            // ê°€ì ¸ì˜¨ ì»´í¬ë„ŒíŠ¸ì˜ bulletPool ì— ì´ì•Œì„ ì¶”ê°€.
+            pf.bulletPool.Add(gameObject);
+        }
     }
 }

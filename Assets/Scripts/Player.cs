@@ -1,36 +1,36 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
-// Å¬·¡½º ÀÌ¸§ : ´ë¹®ÀÚ·Î ½ÃÀÛ
-// ÇÔ¼ö ÀÌ¸§ : ´ë¹®ÀÚ·Î ½ÃÀÛ
-// º¯¼ö : ¼Ò¹®ÀÚ·Î ½ÃÀÛ
+// í´ë˜ìŠ¤ ì´ë¦„ : ëŒ€ë¬¸ìë¡œ ì‹œì‘
+// í•¨ìˆ˜ ì´ë¦„ : ëŒ€ë¬¸ìë¡œ ì‹œì‘
+// ë³€ìˆ˜ : ì†Œë¬¸ìë¡œ ì‹œì‘
 
 public class Player : MonoBehaviour
 {
-    // ÀÌµ¿ ¼Ó·Â
+    // ì´ë™ ì†ë ¥
     public float speed = 5.0f;
+
 
     void Start()
     {
-
     }
 
     void Update()
     {
-        // »ç¿ëÀÚÀÇ ÀÔ·Â ¹Ş¾Æ¿ÀÀÚ
-        // a : -1, d : 1, ´©¸£Áö ¾ÊÀ¸¸é 0
+        // ì‚¬ìš©ìì˜ ì…ë ¥ ë°›ì•„ì˜¤ì
+        // a : -1, d : 1, ëˆ„ë¥´ì§€ ì•Šìœ¼ë©´ 0
         float h = Input.GetAxis("Horizontal");
-        // s : -1, w : 1, ´©¸£Áö ¾ÊÀ¸¸é 0
+        // s : -1, w : 1, ëˆ„ë¥´ì§€ ì•Šìœ¼ë©´ 0
         float v = Input.GetAxis("Vertical");        
 
-        // ÀÔ·Â ¹ŞÀº °ªÀ¸·Î ¿òÁ÷¿©¾ß ÇÏ´Â ¹æÇâÀ» ±¸ÇÏÀÚ.
+        // ì…ë ¥ ë°›ì€ ê°’ìœ¼ë¡œ ì›€ì§ì—¬ì•¼ í•˜ëŠ” ë°©í–¥ì„ êµ¬í•˜ì.
         Vector3 dirH = Vector3.right * h;
         Vector3 dirV = Vector3.up * v;
         Vector3 dir = dirH + dirV;
-        // dirÀÇ Å©±â¸¦ 1·Î ¸¸µéÀÚ (Á¤±ÔÈ­, Normalize)
+        // dirì˜ í¬ê¸°ë¥¼ 1ë¡œ ë§Œë“¤ì (ì •ê·œí™”, Normalize)
         dir.Normalize();
 
-        // ±× ¹æÇâÀ¸·Î °è¼Ó ÀÌµ¿ÇÏÀÚ.
-        // ¿À¸¥ÂÊÀ¸·Î ÀÌµ¿ÇÏ°í ½Í´Ù.
+        // ê·¸ ë°©í–¥ìœ¼ë¡œ ê³„ì† ì´ë™í•˜ì.
+        // ì˜¤ë¥¸ìª½ìœ¼ë¡œ ì´ë™í•˜ê³  ì‹¶ë‹¤.
         // P = P0 + vt
         transform.position += dir * speed * Time.deltaTime;
 
@@ -39,12 +39,12 @@ public class Player : MonoBehaviour
 
     void CheckRange()
     {
-        // ¸¸¾à¿¡ viewport x °ªÀÌ 0º¸´Ù ÀÛÀ¸¸é
+        // ë§Œì•½ì— viewport x ê°’ì´ 0ë³´ë‹¤ ì‘ìœ¼ë©´
         Vector3 viewportPoint = Camera.main.WorldToViewportPoint(transform.position + Vector3.left * 0.5f);
         if (viewportPoint.x < 0)
         {
             viewportPoint.x = 0;
-            // ³ªÀÇ À§Ä¡ x °ªÀ» viewport x ÀÇ 0 °ªÀ» 3D ÁÂÇ¥·Î º¯È¯
+            // ë‚˜ì˜ ìœ„ì¹˜ x ê°’ì„ viewport x ì˜ 0 ê°’ì„ 3D ì¢Œí‘œë¡œ ë³€í™˜
             Vector3 pos = Camera.main.ViewportToWorldPoint(viewportPoint);
             transform.position = pos + Vector3.right * 0.5f;
         }
@@ -73,9 +73,9 @@ public class Player : MonoBehaviour
             transform.position = pos + Vector3.up * 0.5f;
         }
 
-        // ³ªÀÇ ÁÂÇ¥¸¦ ÇØ»óµµ ÁÂÇ¥°è·Î (ÇØ»óµµ ¹üÀ§)
+        // ë‚˜ì˜ ì¢Œí‘œë¥¼ í•´ìƒë„ ì¢Œí‘œê³„ë¡œ (í•´ìƒë„ ë²”ìœ„)
         //print(Camera.main.WorldToScreenPoint(transform.position));
-        // ³ªÀÇ ÁÂÇ¥¸¦ Ä«¸Ş¶ó ÁÂÇ¥°è·Î (0 ~ 1 ·Î Ç¥Çö)
+        // ë‚˜ì˜ ì¢Œí‘œë¥¼ ì¹´ë©”ë¼ ì¢Œí‘œê³„ë¡œ (0 ~ 1 ë¡œ í‘œí˜„)
         //print(Camera.main.WorldToViewportPoint(transform.position));
     }
 }
