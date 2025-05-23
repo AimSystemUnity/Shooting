@@ -1,0 +1,5 @@
+C:/UnityProject/Shooting/.utmp/RelWithDebInfo/2d3x386x/arm64-v8a/CMakeFiles/edit_cache.dir
+C:/UnityProject/Shooting/.utmp/RelWithDebInfo/2d3x386x/arm64-v8a/CMakeFiles/rebuild_cache.dir
+C:/UnityProject/Shooting/.utmp/RelWithDebInfo/2d3x386x/arm64-v8a/GameActivity/CMakeFiles/game.dir
+C:/UnityProject/Shooting/.utmp/RelWithDebInfo/2d3x386x/arm64-v8a/GameActivity/CMakeFiles/edit_cache.dir
+C:/UnityProject/Shooting/.utmp/RelWithDebInfo/2d3x386x/arm64-v8a/GameActivity/CMakeFiles/rebuild_cache.dir

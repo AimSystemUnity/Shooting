@@ -44,5 +44,9 @@ public class ScoreManager : MonoBehaviour
             // 최고 점수 저장
             PlayerPrefs.SetInt("BEST_SCORE", bestScore);
         }
+
+        // 현재 점수, 최고 점수를 DataManager 에게 알려주자.
+        DataManager.instance.currScore = currScore;
+        DataManager.instance.bestScore = bestScore;
     }
 }

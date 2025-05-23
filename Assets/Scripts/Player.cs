@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 // 클래스 이름 : 대문자로 시작
 // 함수 이름 : 대문자로 시작
@@ -35,6 +36,25 @@ public class Player : MonoBehaviour
         transform.position += dir * speed * Time.deltaTime;
 
         CheckRange();
+    }
+
+    // HPBar UI
+    public HPBar hpBar;
+
+    private void OnTriggerEnter(Collider other)
+    {
+        // 부딪힌 오브젝트가 Enemy 라면
+        if(other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
+            // HPBar 의 UpdateHP 를 호출
+            float currHP = hpBar.UpdateHP(-15);
+            // 만약에 hp 0 보다 같거나 작으면
+            if(currHP <= 0)
+            {
+                // 결과 Scene 으로 전환하자.
+                SceneManager.LoadScene("ResultScene");
+            }
+        }
     }
 
     void CheckRange()

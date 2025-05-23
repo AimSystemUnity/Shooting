@@ -108,12 +108,12 @@ public class Enemy : MonoBehaviour
         // 만약에 부딪힌 물체가 DestroyZone 이 아니면
         if(other.name.Contains("DestroyZone") == false)
         {
-            // 만약에 부딪힌 물체가 총알이 아니면
-            if(other.name.Contains("Bullet")== false)
-            {
-                // 부딪힌 게임오브젝트 파괴
-                Destroy(other.gameObject);
-            }
+            //// 만약에 부딪힌 물체가 총알이 아니면
+            //if(other.name.Contains("Bullet")== false)
+            //{
+            //    // 부딪힌 게임오브젝트 파괴
+            //    Destroy(other.gameObject);
+            //}
 
             // 폭발효과 Prefab 을 하나 복제하자.
             GameObject explo = Instantiate(exploPrefab);
@@ -132,6 +132,9 @@ public class Enemy : MonoBehaviour
             ScoreManager sm = go.GetComponent<ScoreManager>();
             // 가져온 컴포넌트의 AddScore 함수 실행
             sm.AddScore(10);
+
+            // 터지는 효과음 
+            SoundManager.instance.PlayEftSound(SoundManager.ESoundType.EFT_DESTROY);
         }
         // 나도 파괴
         Destroy(gameObject);        

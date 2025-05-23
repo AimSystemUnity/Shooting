@@ -6,6 +6,8 @@ public class EnemyBullet : MonoBehaviour
     public float speed = 7;
     // 이동 방향
     Vector3 dir;
+    // 나 없어질 때 효과
+    public GameObject exploPrefab;
 
     void Start()
     {
@@ -29,5 +31,15 @@ public class EnemyBullet : MonoBehaviour
     {
         // dir 방향으로 이동하자.
         transform.position += dir * speed * Time.deltaTime;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        // exploPrefab 생성하자.
+        GameObject explo = Instantiate(exploPrefab);
+        // 생성된 오브젝트를 나의 위치에 놓자.        
+        explo.transform.position = transform.position;
+
+        Destroy(gameObject);
     }
 }

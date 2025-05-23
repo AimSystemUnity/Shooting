@@ -1,33 +1,33 @@
-
+ï»¿
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerFire : MonoBehaviour
 {
-    // ÃÑ¾Ë Prefab
+    // ì´ì•Œ Prefab
     public GameObject bulletPrefab;
-    // ÃÑ±¸
+    // ì´êµ¬
     public GameObject firePos;
     public Transform firePos2;  
 
-    // »ı¼º½Ã°£
+    // ìƒì„±ì‹œê°„
     public float createTime;
-    // ÇöÀç½Ã°£
+    // í˜„ì¬ì‹œê°„
     float currTime = 0;
 
-    // ÃÑ¾ËÀ» °¡Áö°í ÀÖ´Â ¸®½ºÆ®
+    // ì´ì•Œì„ ê°€ì§€ê³  ìˆëŠ” ë¦¬ìŠ¤íŠ¸
     public List<GameObject> bulletPool = new List<GameObject>();
-    // ÃÊ±â ÃÑ¾Ë °¹¼ö
+    // ì´ˆê¸° ì´ì•Œ ê°¯ìˆ˜
     public int initBulletCnt = 20;
 
 
-    #region 360 µµ ºĞÇÒ ¹ß»ç °ü·Ã
+    #region 360 ë„ ë¶„í•  ë°œì‚¬ ê´€ë ¨
     
     public Transform fire360;
     public int fireCnt = 4;
-    // 360 ÃÑ¾ËÀÌ ¹ß»çµÇ°í ÀÖ´ÂÁö
+    // 360 ì´ì•Œì´ ë°œì‚¬ë˜ê³  ìˆëŠ”ì§€
     bool isFire360 = false;
-    // ÇöÀç ¹ß»çµÈ ÃÑ¾ËÀÇ °¹¼ö
+    // í˜„ì¬ ë°œì‚¬ëœ ì´ì•Œì˜ ê°¯ìˆ˜
     int fireBulletCnt;
     float createTime360 = 0.1f;
     float currTime360;
@@ -38,24 +38,24 @@ public class PlayerFire : MonoBehaviour
 
     private void Start()
     {
-        // bulletPool ÃÑ¾Ë 20°³ ¸¸µé¾î¼­ ¼³Á¤
+        // bulletPool ì´ì•Œ 20ê°œ ë§Œë“¤ì–´ì„œ ì„¤ì •
         for (int i = 0; i < initBulletCnt; i++)
         {            
-            // ÃÑ¾ËÀ» »ı¼º
+            // ì´ì•Œì„ ìƒì„±
             GameObject bullet = Instantiate(bulletPrefab);
-            // Pool ¿¡ ¼³Á¤
+            // Pool ì— ì„¤ì •
             bulletPool.Add(bullet);
-            // ÃÑ¾ËÀ» ºñÈ°¼º
+            // ì´ì•Œì„ ë¹„í™œì„±
             bullet.SetActive(false);
         }
     }
 
     void Update()
     {
-        // ¸¸¾à¿¡ Å°º¸µå 1¹øÅ°¸¦ ´©¸£¸é
+        // ë§Œì•½ì— í‚¤ë³´ë“œ 1ë²ˆí‚¤ë¥¼ ëˆ„ë¥´ë©´
         if(Input.GetKeyDown(KeyCode.Alpha1))
         {
-            // 360 ÃÑ¾ËÀÌ ¹ß»ç ½ÃÀÛ ÇÏÀÚ!
+            // 360 ì´ì•Œì´ ë°œì‚¬ ì‹œì‘ í•˜ì!
             isFire360 = true;            
         }
 
@@ -70,42 +70,42 @@ public class PlayerFire : MonoBehaviour
         }
 
 
-        // ¸¶¿ì½º ¿ŞÂÊ ¹öÆ°À» ´©¸£¸é        
+        // ë§ˆìš°ìŠ¤ ì™¼ìª½ ë²„íŠ¼ì„ ëˆ„ë¥´ë©´        
         if(Input.GetButtonDown("Fire1"))        
         {
-           // Fire();
+            Fire();
         }
 
-        // ½Ã°£À» Èå¸£°Ô ÇÏÀÚ.
+        // ì‹œê°„ì„ íë¥´ê²Œ í•˜ì.
         currTime += Time.deltaTime;
-        // ¸¸¾à¿¡ ÇöÀç½Ã°£ÀÌ »ı¼º½Ã°£º¸´Ù Ä¿Áö¸é
+        // ë§Œì•½ì— í˜„ì¬ì‹œê°„ì´ ìƒì„±ì‹œê°„ë³´ë‹¤ ì»¤ì§€ë©´
         if(currTime > createTime)
         {
-            // ÃÑ¾Ë ¹ß»ç
+            // ì´ì•Œ ë°œì‚¬
             //Fire();
-            // ÇöÀç½Ã°£À» ÃÊ±âÈ­
+            // í˜„ì¬ì‹œê°„ì„ ì´ˆê¸°í™”
             currTime = 0;
         }
     }
 
     void Fire360()
     {
-        // 360 / fireCnt È¸Àü °ª¸¸Å­ fire360 À» È¸Àü
+        // 360 / fireCnt íšŒì „ ê°’ë§Œí¼ fire360 ì„ íšŒì „
         float angle = 360.0f / fireCnt;
         fire360.Rotate(0, 0, -angle);
-        // fire360 À§¹æÇâÀ¸·Î 1.5¸¸Å­ ¶³¾îÁø À§Ä¡¸¦ ±¸ÇÏÀÚ.
+        // fire360 ìœ„ë°©í–¥ìœ¼ë¡œ 1.5ë§Œí¼ ë–¨ì–´ì§„ ìœ„ì¹˜ë¥¼ êµ¬í•˜ì.
         Vector3 pos = transform.position + fire360.up * 1.5f;
-        // ÃÑ¾Ë ¹ß»ç
+        // ì´ì•Œ ë°œì‚¬
         MakeBullet(pos, fire360.up);
 
-        // ¹ß»çµÈ ÃÑ¾Ë °¹¼ö¸¦ Áõ°¡½ÃÅ°ÀÚ.
+        // ë°œì‚¬ëœ ì´ì•Œ ê°¯ìˆ˜ë¥¼ ì¦ê°€ì‹œí‚¤ì.
         fireBulletCnt++;
-        // ¸¸¾à¿¡ ¹ß»çµÈ ÃÑ¾Ë °¹¼ö°¡ fireCnt ¿Í °°´Ù¸é
+        // ë§Œì•½ì— ë°œì‚¬ëœ ì´ì•Œ ê°¯ìˆ˜ê°€ fireCnt ì™€ ê°™ë‹¤ë©´
         if(fireBulletCnt == fireCnt)
         {
-            // 360¹ß»ç¸¦ ¸ØÃßÀÚ.
+            // 360ë°œì‚¬ë¥¼ ë©ˆì¶”ì.
             isFire360 = false;
-            // ¹ß»çµÈ ÃÑ¾Ë °¹¼ö ÃÊ±âÈ­
+            // ë°œì‚¬ëœ ì´ì•Œ ê°¯ìˆ˜ ì´ˆê¸°í™”
             fireBulletCnt = 0;
         }        
     }
@@ -119,29 +119,31 @@ public class PlayerFire : MonoBehaviour
     void MakeBullet(Vector3 pos, Vector3 upDir)
     {
         GameObject bullet;
-        // ¸¸¾à¿¡ bulletPool ¿¡ °¹¼ö°¡ ¾øÀ¸¸é
+        // ë§Œì•½ì— bulletPool ì— ê°¯ìˆ˜ê°€ ì—†ìœ¼ë©´
         if(bulletPool.Count == 0)
         {
-            // ÃÑ¾Ë Prefab ¿¡ ÃÑ¾Ë ÇÏ³ª ¸¸µç´Ù.
+            // ì´ì•Œ Prefab ì— ì´ì•Œ í•˜ë‚˜ ë§Œë“ ë‹¤.
             bullet = Instantiate(bulletPrefab);
         }
         else
         {
-            // bulletPool ¿¡¼­ ÃÑ¾ËÀ» ÇÏ³ª °¡Á®¿ÀÀÚ.
+            // bulletPool ì—ì„œ ì´ì•Œì„ í•˜ë‚˜ ê°€ì ¸ì˜¤ì.
             bullet = bulletPool[0];
-            // bulletPool 0¹øÂ° ÃÑ¾Ë Á¦°Å
+            // bulletPool 0ë²ˆì§¸ ì´ì•Œ ì œê±°
             bulletPool.RemoveAt(0);
         }
 
-        // ÃÑ¾Ë°øÀå(Prefab)¿¡¼­ ÃÑ¾ËÀ» ÇÏ³ª »ı¼ºÇÏÀÚ.
+        // ì´ì•Œê³µì¥(Prefab)ì—ì„œ ì´ì•Œì„ í•˜ë‚˜ ìƒì„±í•˜ì.
         //GameObject bullet = Instantiate(bulletPrefab);
-        // »ı¼ºµÈ ÃÑ¾ËÀ» ÃÑ±¸¿¡ À§Ä¡½ÃÅ°ÀÚ.
+        // ìƒì„±ëœ ì´ì•Œì„ ì´êµ¬ì— ìœ„ì¹˜ì‹œí‚¤ì.
         bullet.transform.position = pos;
-        // ÃÑ¾ËÀÇ À­¹æÇâÀ» upDir ·Î ¼³Á¤
+        // ì´ì•Œì˜ ìœ—ë°©í–¥ì„ upDir ë¡œ ì„¤ì •
         bullet.transform.up = upDir;
-        // ÃÑ¾ËÀ» È°¼ºÈ­
+        // ì´ì•Œì„ í™œì„±í™”
         bullet.SetActive(true);
-        // Bullet ÄÄÆ÷³ÍÆ® °¡Á®¿ÀÀÚ. °¡Á®¿Â ÄÄÆ÷³ÍÆ® PlaySound ÇÔ¼ö
-        bullet.GetComponent<Bullet>().PlaySound();
+
+        SoundManager.instance.PlayEftSound(SoundManager.ESoundType.EFT_BULLET);
+        // Bullet ì»´í¬ë„ŒíŠ¸ ê°€ì ¸ì˜¤ì. ê°€ì ¸ì˜¨ ì»´í¬ë„ŒíŠ¸ PlaySound í•¨ìˆ˜
+        //bullet.GetComponent<Bullet>().PlaySound();
     }
 }
